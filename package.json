@@ -1,0 +1,26 @@
+{
+  "name": "smartwake",
+  "version": "1.0.0",
+  "description": "wake services",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mkovachev/smartwake"
+  },
+  "author": "Martin Kovachev",
+  "license": "MIT",
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "bcryptjs": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*"
+  }
+
+}

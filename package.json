@@ -21,6 +21,8 @@
     "body-parser": "*",
     "passport": "*",
     "passport-jwt": "*"
-  }
+  },
+  "devDependencies": {
 
+  }
 }

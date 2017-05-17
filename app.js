@@ -2,10 +2,12 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
-const config = require('./config/database');
+const passport = require('passport');
 
-// connect to database
+// MongoDB
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const config = require('./config/database');
 mongoose.connect(config.database);
 mongoose.connection.on('connected', () => {
     console.log('Connected to database ' + config.database);
@@ -14,22 +16,27 @@ mongoose.connection.on('error', (err) => {
     console.log('Database error: ' + err);
 });
 
-// init express
+//init express
 const app = express();
 
-// set static folder
+// static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Cors allows access from any domain
+// cors allows requests from any domain
 app.use(cors());
 
-// parse incoming request body
+// parse incoming data
 app.use(bodyParser.json());
 
-const users = require('./routes/users');
-app.use('/users', users);
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
 // routes
+const users = require('./routes/users');
+app.use('/users', users);
+// set main view
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });

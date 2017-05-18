@@ -6,22 +6,25 @@ import 'rxjs/add/operator/map';
 export class AuthService {
   authToken: any;
   user: any;
+  isDev: boolean;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+    this.isDev = false; // Change to false before deployment
+  }
 
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //let ep = this.prepEndpoint('users/register');
-    return this.http.post('http://localhost:3000/users/register', user, { headers: headers })
+    let ep = this.prepEndpoint('users/register');
+    return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //let ep = this.prepEndpoint('users/authenticate');
-    return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers })
+    let ep = this.prepEndpoint('users/authenticate');
+    return this.http.post(ep, user, { headers: headers })
       .map(res => res.json());
   }
 
@@ -30,6 +33,20 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
     this.user = user;
+  }
+
+  logout() {
+    this.authToken = null;
+    this.user = null;
+    localStorage.clear();
+  }
+
+  prepEndpoint(ep) {
+    if (this.isDev) {
+      return ep;
+    } else {
+      return 'http://localhost:3000/' + ep;
+    }
   }
 
 }

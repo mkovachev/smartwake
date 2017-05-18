@@ -36,7 +36,7 @@ require('./config/passport')(passport);
 // routes
 const users = require('./routes/users');
 app.use('/users', users);
-// set main view
+// send all routes to index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });

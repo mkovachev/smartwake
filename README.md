@@ -1,2 +1,2 @@
 # smartwake
-wake services
+MEAN Stack Angular 4
